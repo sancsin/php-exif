@@ -73,6 +73,8 @@ class Native extends AbstractAdapter
         'country'     => '2#101'
     );
 
+    public function writeExifToFile(Exif $exif, string $file): void {}
+
 
     /**
      * Getter for the EXIF sections
@@ -174,8 +176,10 @@ class Native extends AbstractAdapter
             // @codeCoverageIgnoreEnd
         }
 
-        if ($mimeType === 'application/octet-stream' &&
-            in_array(strtolower(pathinfo($file, PATHINFO_EXTENSION)), ['mp4', 'mp4v', 'mpg4'], true)) {
+        if (
+            $mimeType === 'application/octet-stream' &&
+            in_array(strtolower(pathinfo($file, PATHINFO_EXTENSION)), ['mp4', 'mp4v', 'mpg4'], true)
+        ) {
             // @codeCoverageIgnoreStart
             $mimeType = 'video/mp4';
             // @codeCoverageIgnoreEnd

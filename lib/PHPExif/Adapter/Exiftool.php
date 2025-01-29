@@ -86,12 +86,51 @@ class Exiftool extends AbstractAdapter
     public function setEncoding(array $encodings): void
     {
         $possible_keys = array("exif", "iptc", "id3", "photoshop", "quicktime",);
-        $possible_values = array("UTF8", "cp65001", "UTF-8", "Thai", "cp874", "Latin", "cp1252",
-            "Latin1", "MacRoman", "cp10000", "Mac", "Roman", "Latin2", "cp1250", "MacLatin2",
-            "cp10029", "Cyrillic", "cp1251", "Russian", "MacCyrillic", "cp10007", "Greek",
-            "cp1253", "MacGreek", "cp10006", "Turkish", "cp1254", "MacTurkish", "cp10081",
-            "Hebrew", "cp1255", "MacRomanian", "cp10010", "Arabic", "cp1256", "MacIceland",
-            "cp10079", "Baltic", "cp1257", "MacCroatian", "cp10082", "Vietnam", "cp1258",);
+        $possible_values = array(
+            "UTF8",
+            "cp65001",
+            "UTF-8",
+            "Thai",
+            "cp874",
+            "Latin",
+            "cp1252",
+            "Latin1",
+            "MacRoman",
+            "cp10000",
+            "Mac",
+            "Roman",
+            "Latin2",
+            "cp1250",
+            "MacLatin2",
+            "cp10029",
+            "Cyrillic",
+            "cp1251",
+            "Russian",
+            "MacCyrillic",
+            "cp10007",
+            "Greek",
+            "cp1253",
+            "MacGreek",
+            "cp10006",
+            "Turkish",
+            "cp1254",
+            "MacTurkish",
+            "cp10081",
+            "Hebrew",
+            "cp1255",
+            "MacRomanian",
+            "cp10010",
+            "Arabic",
+            "cp1256",
+            "MacIceland",
+            "cp10079",
+            "Baltic",
+            "cp1257",
+            "MacCroatian",
+            "cp10082",
+            "Vietnam",
+            "cp1258",
+        );
         foreach ($encodings as $type => $encoding) {
             if (in_array($type, $possible_keys, true) && in_array($encoding, $possible_values, true)) {
                 $this->encoding[$type] = $encoding;
@@ -133,7 +172,7 @@ class Exiftool extends AbstractAdapter
         if (count($this->encoding) > 0) {
             $encoding = '-charset ';
             foreach ($this->encoding as $key => $value) {
-                $encoding .= escapeshellarg($key).'='.escapeshellarg($value);
+                $encoding .= escapeshellarg($key) . '=' . escapeshellarg($value);
             }
         }
         /**
@@ -186,6 +225,8 @@ class Exiftool extends AbstractAdapter
 
         return $exif;
     }
+
+    public function writeExifToFile(Exif $exif, string $file): void {}
 
     /**
      * Returns the output from given cli command

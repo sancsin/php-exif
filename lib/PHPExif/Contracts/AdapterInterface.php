@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @codeCoverageIgnore
  */
@@ -26,4 +27,6 @@ interface AdapterInterface
      * @throws PhpExifReaderException If the EXIF data could not be read
      */
     public function getExifFromFile(string $file): Exif;
+
+    public function writeExifToFile(Exif $exif, string $file): void;
 }
