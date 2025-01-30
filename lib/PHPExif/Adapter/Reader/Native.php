@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPExif\Adapter;
+namespace PHPExif\Adapter\Reader;
 
 use PHPExif\Exif;
 use PHPExif\Mapper\Native as MapperNative;
@@ -72,9 +72,6 @@ class Native extends AbstractAdapter
         'state'       => '2#095',
         'country'     => '2#101'
     );
-
-    public function writeExifToFile(Exif $exif, string $file): void {}
-
 
     /**
      * Getter for the EXIF sections

@@ -1,11 +1,11 @@
 <?php
 
-namespace PHPExif\Adapter;
+namespace PHPExif\Adapter\Reader;
 
 use ForceUTF8\Encoding;
-use PHPExif\Contracts\AdapterInterface;
-use PHPExif\Contracts\HydratorInterface;
-use PHPExif\Contracts\MapperInterface;
+use PHPExif\Contracts\Reader\AdapterInterface;
+use PHPExif\Contracts\Reader\HydratorInterface;
+use PHPExif\Contracts\Reader\MapperInterface;
 use PHPExif\Hydrator\Mutator;
 
 /**

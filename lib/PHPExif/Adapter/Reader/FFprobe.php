@@ -10,7 +10,7 @@
  * @package     Reader
  */
 
-namespace PHPExif\Adapter;
+namespace PHPExif\Adapter\Reader;
 
 use PHPExif\Exif;
 use InvalidArgumentException;
@@ -55,8 +55,6 @@ class FFprobe extends AbstractAdapter
         parent::__construct($options);
         $this->toolPath = $path;
     }
-
-    public function writeExifToFile(Exif $exif, string $file): void {}
 
     /**
      * Setter for the exiftool binary path
