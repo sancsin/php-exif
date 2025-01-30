@@ -1,6 +1,6 @@
 <?php
 
-namespace PHPExif\Adapter;
+namespace PHPExif\Adapter\Reader;
 
 use PHPExif\Exif;
 use Imagick;

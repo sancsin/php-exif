@@ -5,7 +5,6 @@ namespace PHPExif\Writer;
 use PHPExif\Adapter\Exiftool as ExiftoolAdapter;
 use PHPExif\Contracts\AdapterInterface;
 use PHPExif\Contracts\WriterInterface;
-use PHPExif\Enum\ReaderType;
 use PHPExif\Enum\WriterType;
 use PHPExif\Exif;
 
