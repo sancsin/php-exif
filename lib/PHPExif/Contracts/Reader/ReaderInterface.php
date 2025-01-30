@@ -1,9 +1,10 @@
 <?php
+
 /**
  * @codeCoverageIgnore
  */
 
-namespace PHPExif\Contracts;
+namespace PHPExif\Contracts\Reader;
 
 use PHPExif\Exif;
 
