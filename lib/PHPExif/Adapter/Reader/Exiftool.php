@@ -3,14 +3,10 @@
 namespace PHPExif\Adapter\Reader;
 
 use PHPExif\Exif;
-use InvalidArgumentException;
-use PHPExif\Mapper\Exiftool as MapperExiftool;
+use PHPExif\Adapter\ExifToolTrait;
 use PHPExif\Reader\PhpExifReaderException;
-use Safe\Exceptions\ExecException;
-
 use Safe\Exceptions\JsonException;
 
-use function Safe\exec;
 use function Safe\json_decode;
 use function Safe\stream_get_contents;
 use function Safe\fclose;
@@ -25,15 +21,8 @@ use function Safe\fclose;
  */
 class Exiftool extends AbstractAdapter
 {
-    public const TOOL_NAME = 'exiftool';
 
-    /**
-     * Path to the exiftool binary
-     */
-    protected string $toolPath = '';
-    protected bool $numeric = true;
-    protected array $encoding = [];
-    protected string $mapperClass = MapperExiftool::class;
+    use ExifToolTrait;
 
     /**
      * Set up Exiftool adapter
@@ -46,117 +35,6 @@ class Exiftool extends AbstractAdapter
     {
         parent::__construct($options);
         $this->toolPath = $path;
-    }
-
-    /**
-     * Setter for the exiftool binary path
-     *
-     * @param string $path The path to the exiftool binary
-     * @return \PHPExif\Adapter\Exiftool Current instance
-     * @throws \InvalidArgumentException When path is invalid
-     */
-    public function setToolPath(string $path): Exiftool
-    {
-        if (!file_exists($path)) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    'Given path (%1$s) to the exiftool binary is invalid',
-                    $path
-                )
-            );
-        }
-
-        $this->toolPath = $path;
-
-        return $this;
-    }
-
-    /**
-     * @param boolean $numeric
-     */
-    public function setNumeric(bool $numeric): void
-    {
-        $this->numeric = $numeric;
-    }
-
-    /**
-     * @see  http://www.sno.phy.queensu.ca/~phil/exiftool/faq.html#Q10
-     * @param array $encodings encoding parameters in an array eg. ["exif" => "UTF-8"]
-     */
-    public function setEncoding(array $encodings): void
-    {
-        $possible_keys = array("exif", "iptc", "id3", "photoshop", "quicktime",);
-        $possible_values = array(
-            "UTF8",
-            "cp65001",
-            "UTF-8",
-            "Thai",
-            "cp874",
-            "Latin",
-            "cp1252",
-            "Latin1",
-            "MacRoman",
-            "cp10000",
-            "Mac",
-            "Roman",
-            "Latin2",
-            "cp1250",
-            "MacLatin2",
-            "cp10029",
-            "Cyrillic",
-            "cp1251",
-            "Russian",
-            "MacCyrillic",
-            "cp10007",
-            "Greek",
-            "cp1253",
-            "MacGreek",
-            "cp10006",
-            "Turkish",
-            "cp1254",
-            "MacTurkish",
-            "cp10081",
-            "Hebrew",
-            "cp1255",
-            "MacRomanian",
-            "cp10010",
-            "Arabic",
-            "cp1256",
-            "MacIceland",
-            "cp10079",
-            "Baltic",
-            "cp1257",
-            "MacCroatian",
-            "cp10082",
-            "Vietnam",
-            "cp1258",
-        );
-        foreach ($encodings as $type => $encoding) {
-            if (in_array($type, $possible_keys, true) && in_array($encoding, $possible_values, true)) {
-                $this->encoding[$type] = $encoding;
-            }
-        }
-    }
-
-    /**
-     * Getter for the exiftool binary path
-     * Lazy loads the "default" path
-     *
-     * @return string
-     */
-    public function getToolPath(): string
-    {
-        if ($this->toolPath === '') {
-            try {
-                // Do not use "which": not available on sh
-                $path = exec('command -v ' . self::TOOL_NAME);
-                $this->setToolPath($path);
-            } catch (ExecException) {
-                // Do nothing
-            }
-        }
-
-        return $this->toolPath;
     }
 
     /**
@@ -225,8 +103,6 @@ class Exiftool extends AbstractAdapter
 
         return $exif;
     }
-
-    public function writeExifToFile(Exif $exif, string $file): void {}
 
     /**
      * Returns the output from given cli command

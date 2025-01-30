@@ -43,8 +43,6 @@ class ImageMagick extends AbstractAdapter
         'iptc:country'     => '2#101'
     );
 
-    public function writeExifToFile(Exif $exif, string $file): void {}
-
     /**
      * Reads & parses the EXIF data from given file
      *

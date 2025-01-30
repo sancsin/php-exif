@@ -2,10 +2,10 @@
 
 namespace PHPExif\Reader;
 
-use PHPExif\Adapter\Exiftool as ExiftoolAdapter;
-use PHPExif\Adapter\FFprobe as FFprobeAdapter;
-use PHPExif\Adapter\ImageMagick as ImageMagickAdapter;
-use PHPExif\Adapter\Native as NativeAdapter;
+use PHPExif\Adapter\Reader\Exiftool as ExiftoolAdapter;
+use PHPExif\Adapter\Reader\FFprobe as FFprobeAdapter;
+use PHPExif\Adapter\Reader\ImageMagick as ImageMagickAdapter;
+use PHPExif\Adapter\Reader\Native as NativeAdapter;
 use PHPExif\Contracts\AdapterInterface;
 use PHPExif\Contracts\ReaderInterface;
 use PHPExif\Exif;
@@ -26,9 +26,7 @@ class Reader implements ReaderInterface
      *
      * @param AdapterInterface $adapter
      */
-    public function __construct(protected readonly AdapterInterface $adapter)
-    {
-    }
+    public function __construct(protected readonly AdapterInterface $adapter) {}
 
     /**
      * Factory for the reader
