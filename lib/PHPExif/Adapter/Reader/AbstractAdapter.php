@@ -5,7 +5,7 @@ namespace PHPExif\Adapter\Reader;
 use ForceUTF8\Encoding;
 use PHPExif\Contracts\Reader\AdapterInterface;
 use PHPExif\Contracts\Reader\HydratorInterface;
-use PHPExif\Contracts\Reader\MapperInterface;
+use PHPExif\Contracts\MapperInterface;
 use PHPExif\Hydrator\Mutator;
 
 /**

@@ -4,7 +4,7 @@
  * @codeCoverageIgnore
  */
 
-namespace PHPExif\Contracts\Reader;
+namespace PHPExif\Contracts;
 
 /**
  * PHP Exif Mapper
