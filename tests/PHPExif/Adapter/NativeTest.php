@@ -1,6 +1,6 @@
 <?php
 
-use PHPExif\Adapter\Native;
+use PHPExif\Adapter\Reader\Native;
 
 class NativeTest extends \PHPUnit\Framework\TestCase
 {
@@ -101,9 +101,11 @@ class NativeTest extends \PHPUnit\Framework\TestCase
     {
         $file = PHPEXIF_TEST_ROOT . '/files/empty.jpg';
         $result = $this->adapter->getExifFromFile($file);
-        $expected = array('FileSize' => 17,
-                          'FileName' => 'empty.jpg',
-                          'MimeType' => 'text/plain');
+        $expected = array(
+            'FileSize' => 17,
+            'FileName' => 'empty.jpg',
+            'MimeType' => 'text/plain'
+        );
         $this->assertEquals($expected, $result->getRawData());
     }
 
@@ -129,7 +131,11 @@ class NativeTest extends \PHPUnit\Framework\TestCase
         $expected = array(
             'title' => 'Morning Glory Pool',
             'keywords'  => array(
-                '18-200', 'D90', 'USA', 'Wyoming', 'Yellowstone'
+                '18-200',
+                'D90',
+                'USA',
+                'Wyoming',
+                'Yellowstone'
             ),
         );
 

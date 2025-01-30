@@ -2,7 +2,7 @@
 
 namespace PHPExif\Hydrator;
 
-use PHPExif\Contracts\HydratorInterface;
+use PHPExif\Contracts\Reader\HydratorInterface;
 
 /**
  * PHP Exif Mutator Hydrator

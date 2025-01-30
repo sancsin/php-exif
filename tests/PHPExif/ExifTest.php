@@ -200,7 +200,7 @@ class ExifTest extends \PHPUnit\Framework\TestCase
     public function testGetExposureMilliseconds()
     {
         $rawData = array(
-            array(1/300, '1/300'),
+            array(1 / 300, '1/300'),
             array(0.0025, 0.0025),
         );
 
@@ -717,9 +717,9 @@ class ExifTest extends \PHPUnit\Framework\TestCase
             PHPEXIF_TEST_ROOT . '/files/utf8.jpg',
         );
 
-        $adapter_exiftool = new \PHPExif\Adapter\Exiftool();
-        $adapter_imagemagick = new \PHPExif\Adapter\ImageMagick();
-        $adapter_native = new \PHPExif\Adapter\Native();
+        $adapter_exiftool = new \PHPExif\Adapter\Reader\Exiftool();
+        $adapter_imagemagick = new \PHPExif\Adapter\Reader\ImageMagick();
+        $adapter_native = new \PHPExif\Adapter\Reader\Native();
 
         foreach ($testfiles as $file) {
             $result_exiftool = $adapter_exiftool->getExifFromFile($file);
@@ -729,10 +729,12 @@ class ExifTest extends \PHPUnit\Framework\TestCase
             // find all Getter methods on the results and compare its output
             foreach ($methods as $method) {
                 $name = $method->getName();
-                if (strpos($name, 'get') !== 0 || $name === 'getRawData' || $name === 'getData' || $name === 'getColorSpace' ||
+                if (
+                    strpos($name, 'get') !== 0 || $name === 'getRawData' || $name === 'getData' || $name === 'getColorSpace' ||
                     ($name === 'getLens' && $file === PHPEXIF_TEST_ROOT . '/files/dsc_5794.jpg') ||
                     ($file === PHPEXIF_TEST_ROOT . '/files/mongolia.jpeg' && ($name === 'getKeywords' || $name === 'getLens')) ||
-                    ($file === PHPEXIF_TEST_ROOT . '/files/utf8.jpg' && ($name === 'getAuthor' || $name === 'getDescription'))) {
+                    ($file === PHPEXIF_TEST_ROOT . '/files/utf8.jpg' && ($name === 'getAuthor' || $name === 'getDescription'))
+                ) {
                     continue;
                 }
                 $this->assertEquals(

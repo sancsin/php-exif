@@ -1,8 +1,8 @@
 <?php
 
-use PHPExif\Adapter\AbstractAdapter;
-use PHPExif\Adapter\Exiftool;
-use PHPExif\Adapter\Native;
+use PHPExif\Adapter\Reader\AbstractAdapter;
+use PHPExif\Adapter\Reader\Exiftool;
+use PHPExif\Adapter\Reader\Native;
 
 class AbstractAdapterTest extends PHPUnit\Framework\TestCase
 {

@@ -1,6 +1,7 @@
 <?php
 
-use PHPExif\Adapter\Exiftool;
+use PHPExif\Adapter\Reader\Exiftool;
+use PHPExif\Adapter\ExiftoolTrait;
 
 class ExiftoolTest extends \PHPUnit\Framework\TestCase
 {

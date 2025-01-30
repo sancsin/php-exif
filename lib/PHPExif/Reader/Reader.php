@@ -6,8 +6,8 @@ use PHPExif\Adapter\Reader\Exiftool as ExiftoolAdapter;
 use PHPExif\Adapter\Reader\FFprobe as FFprobeAdapter;
 use PHPExif\Adapter\Reader\ImageMagick as ImageMagickAdapter;
 use PHPExif\Adapter\Reader\Native as NativeAdapter;
-use PHPExif\Contracts\AdapterInterface;
-use PHPExif\Contracts\ReaderInterface;
+use PHPExif\Contracts\Reader\AdapterInterface;
+use PHPExif\Contracts\Reader\ReaderInterface;
 use PHPExif\Exif;
 use PHPExif\Enum\ReaderType;
 

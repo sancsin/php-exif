@@ -1,6 +1,6 @@
 <?php
 
-use PHPExif\Adapter\ImageMagick;
+use PHPExif\Adapter\Reader\ImageMagick;
 use PHPExif\Exif;
 
 class ImageMagickTest extends \PHPUnit\Framework\TestCase
@@ -36,5 +36,4 @@ class ImageMagickTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals([], $result);
     }
-
 }

@@ -1,10 +1,10 @@
 <?php
 
-use PHPExif\Adapter\Exiftool;
-use PHPExif\Adapter\FFprobe;
-use PHPExif\Adapter\ImageMagick;
-use PHPExif\Adapter\Native;
-use PHPExif\Contracts\AdapterInterface;
+use PHPExif\Adapter\Reader\Exiftool;
+use PHPExif\Adapter\Reader\FFprobe;
+use PHPExif\Adapter\Reader\ImageMagick;
+use PHPExif\Adapter\Reader\Native;
+use PHPExif\Contracts\Reader\AdapterInterface;
 use PHPExif\Exif;
 use PHPExif\Reader\Reader;
 

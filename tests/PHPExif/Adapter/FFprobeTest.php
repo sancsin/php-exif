@@ -1,6 +1,6 @@
 <?php
 
-use PHPExif\Adapter\FFprobe;
+use PHPExif\Adapter\Reader\FFprobe;
 use PHPExif\Exif;
 use PHPExif\Reader\PhpExifReaderException;
 
@@ -88,5 +88,4 @@ class FFprobeTest extends \PHPUnit\Framework\TestCase
         $this->expectException(PhpExifReaderException::class);
         $this->adapter->getExifFromFile($file);
     }
-
 }

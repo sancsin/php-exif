@@ -3,7 +3,6 @@
 namespace PHPExif\Adapter;
 
 use InvalidArgumentException;
-use PHPExif\Mapper\Exiftool as MapperExiftool;
 use Safe\Exceptions\ExecException;
 
 trait ExifToolTrait
@@ -13,7 +12,6 @@ trait ExifToolTrait
     protected string $toolPath = '';
     protected bool $numeric = true;
     protected array $encoding = [];
-    protected string $mapperClass = MapperExiftool::class;
 
     /**
      * Setter for the exiftool binary path
@@ -22,7 +20,7 @@ trait ExifToolTrait
      * @return \PHPExif\Adapter\Exiftool Current instance
      * @throws \InvalidArgumentException When path is invalid
      */
-    public function setToolPath(string $path): ExiftoolTrait
+    public function setToolPath(string $path): static
     {
         if (!file_exists($path)) {
             throw new InvalidArgumentException(
