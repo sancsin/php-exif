@@ -18,8 +18,8 @@ interface ExtractorInterface
     /**
      * Extracts given Exif object into an array of data
      * @param mixed $object
-     * @param array $data
-     * @return void
+     * @param array $map
+     * @return array
      */
-    public function extract($object, array $data): void;
+    public function extract($object, array $map): array;
 }
