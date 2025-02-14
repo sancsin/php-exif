@@ -1,8 +1,9 @@
 <?php
 
-namespace PHPExif\Mapper;
+namespace PHPExif\Mapper\Reader;
 
 use PHPExif\Exif;
+use PHPExif\Mapper\AbstractMapper;
 use Safe\DateTime;
 
 use function Safe\preg_match;
@@ -180,14 +181,14 @@ class Native extends AbstractMapper
                                 $timezone = null;
                             }
                             $value = new DateTime($value, $timezone);
-                        // Check if OffsetTime (0x9010) is available
+                            // Check if OffsetTime (0x9010) is available
                         } elseif (isset($data['UndefinedTag:0x9010'])) {
                             try {
                                 $timezone = new \DateTimeZone($data['UndefinedTag:0x9010']);
                             } catch (\Exception $e) {
                                 $timezone = null;
                             }
-                                $value = new DateTime($value, $timezone);
+                            $value = new DateTime($value, $timezone);
                         } else {
                             $value = new DateTime($value);
                         }
@@ -232,8 +233,10 @@ class Native extends AbstractMapper
                     break;
                 case self::GPSLATITUDE:
                     $GPSLatitudeRef = 'N';
-                    if (array_key_exists('GPSLatitudeRef', $data)
-                        && $data['GPSLatitudeRef'] !== null && $data['GPSLatitudeRef'][0] !== '') {
+                    if (
+                        array_key_exists('GPSLatitudeRef', $data)
+                        && $data['GPSLatitudeRef'] !== null && $data['GPSLatitudeRef'][0] !== ''
+                    ) {
                         $GPSLatitudeRef = $data['GPSLatitudeRef'][0];
                     }
                     $value = $this->extractGPSCoordinate((array)$value, $GPSLatitudeRef);
@@ -243,8 +246,10 @@ class Native extends AbstractMapper
                     break;
                 case self::GPSLONGITUDE:
                     $GPSLongitudeRef = 'E';
-                    if (array_key_exists('GPSLongitudeRef', $data)
-                        && $data['GPSLongitudeRef'] !== null && $data['GPSLongitudeRef'][0] !== '') {
+                    if (
+                        array_key_exists('GPSLongitudeRef', $data)
+                        && $data['GPSLongitudeRef'] !== null && $data['GPSLongitudeRef'][0] !== ''
+                    ) {
                         $GPSLongitudeRef = $data['GPSLongitudeRef'][0];
                     }
                     $value = $this->extractGPSCoordinate((array)$value, $GPSLongitudeRef);

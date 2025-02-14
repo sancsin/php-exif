@@ -1,7 +1,7 @@
 <?php
 
 use PHPExif\Contracts\MapperInterface;
-use PHPExif\Mapper\Native;
+use PHPExif\Mapper\Reader\Native;
 
 class NativeMapperTest extends \PHPUnit\Framework\TestCase
 {
@@ -175,7 +175,7 @@ class NativeMapperTest extends \PHPUnit\Framework\TestCase
             $result->getTimezone()->getName()
         );
     }
-    
+
     /**
      * @group mapper
      */
@@ -216,9 +216,9 @@ class NativeMapperTest extends \PHPUnit\Framework\TestCase
     public function testMapRawDataCorrectlyFormatsExposureTime()
     {
         $rawData = array(
-            '1/30'  => 10/300,
-            '1/400' => 2/800,
-            '1/400' => 1/400,
+            '1/30'  => 10 / 300,
+            '1/400' => 2 / 800,
+            '1/400' => 1 / 400,
             '0'     => 0,
         );
 
@@ -586,7 +586,7 @@ class NativeMapperTest extends \PHPUnit\Framework\TestCase
         $mapped = $this->mapper->mapRawData($rawData);
 
         $this->assertEquals(
-            array('Keyword_1' ,'Keyword_2', 'Keyword_3'),
+            array('Keyword_1', 'Keyword_2', 'Keyword_3'),
             reset($mapped)
         );
     }

@@ -10,11 +10,12 @@
  * @package     Mapper
  */
 
-namespace PHPExif\Mapper;
+namespace PHPExif\Mapper\Reader;
 
 use PHPExif\Mapper\ExiftoolTrait;
-
 use PHPExif\Exif;
+use PHPExif\Mapper\AbstractMapper;
+
 use Safe\DateTime;
 
 use function Safe\preg_match;

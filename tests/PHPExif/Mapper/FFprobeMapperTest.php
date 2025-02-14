@@ -2,7 +2,7 @@
 
 use FFMpeg\FFProbe as FFMpegFFProbe;
 use PHPExif\Contracts\MapperInterface;
-use PHPExif\Mapper\FFprobe;
+use PHPExif\Mapper\Reader\FFprobe;
 
 class FFprobeMapperTest extends \PHPUnit\Framework\TestCase
 {
@@ -185,11 +185,11 @@ class FFprobeMapperTest extends \PHPUnit\Framework\TestCase
     public function testMapRawDataCorrectlyFormatsQuickTimeGPSData()
     {
         $expected = array(
-          '+27.5916+86.5640+8850/' => array(
-                          \PHPExif\Exif::LATITUDE => '27.5916',
-                          \PHPExif\Exif::LONGITUDE => '86.5640',
-                          \PHPExif\Exif::ALTITUDE => '8850',
-                      ),
+            '+27.5916+86.5640+8850/' => array(
+                \PHPExif\Exif::LATITUDE => '27.5916',
+                \PHPExif\Exif::LONGITUDE => '86.5640',
+                \PHPExif\Exif::ALTITUDE => '8850',
+            ),
         );
 
 
@@ -208,11 +208,11 @@ class FFprobeMapperTest extends \PHPUnit\Framework\TestCase
     public function testMapRawDataCorrectlyRotatesDimensions()
     {
         $expected = array(
-          '600' => array(
-                          'tags' => array('rotate' => '90'),
-                          'width' => '800',
-                          'height' => '600',
-                      ),
+            '600' => array(
+                'tags' => array('rotate' => '90'),
+                'width' => '800',
+                'height' => '600',
+            ),
         );
 
 
@@ -357,51 +357,51 @@ class FFprobeMapperTest extends \PHPUnit\Framework\TestCase
         $reflMethod->setAccessible(true);
 
         $testcase = array(
-          '+27.5916+086.5640+8850/' => array(
-                          'latitude' => '27.5916',
-                          'longitude' => '86.5640',
-                          'altitude' => '8850',
-                      ),
-          '+1234.7-09854.1/' => array(
-                          'latitude' => '12.578333333333',
-                          'longitude' => '-98.901666666667',
-                          'altitude' => null,
-                      ),
-          '+352139+1384339+3776/' => array(
-                          'latitude' => '35.360833333333',
-                          'longitude' => '138.727500000000',
-                          'altitude' => '3776',
-                      ),
-          '+40.75-074.00/' => array(
-                          'latitude' => '40.75',
-                          'longitude' => '-74',
-                          'altitude' => null,
-                      ),
-          '+123456.7-0985432.1/' => array(
-                          'latitude' => '12.582416666667',
-                          'longitude' => '-98.908916666667',
-                          'altitude' => null,
-                      ),
-          '-90+000+2800/' => array(
-                          'latitude' => '-90',
-                          'longitude' => '0',
-                          'altitude' => '2800',
-                      ),
-          '+35.658632+139.745411/' => array(
-                          'latitude' => '35.658632',
-                          'longitude' => '139.745411',
-                          'altitude' => null,
-                      ),
-          '+48.8577+002.295/' => array(
-                          'latitude' => '48.8577',
-                          'longitude' => '2.295',
-                          'altitude' => null,
-                      ),
-          '+48.8577+002.295-50/' => array(
-                          'latitude' => '48.8577',
-                          'longitude' => '2.295',
-                          'altitude' => '-50',
-                      ),
+            '+27.5916+086.5640+8850/' => array(
+                'latitude' => '27.5916',
+                'longitude' => '86.5640',
+                'altitude' => '8850',
+            ),
+            '+1234.7-09854.1/' => array(
+                'latitude' => '12.578333333333',
+                'longitude' => '-98.901666666667',
+                'altitude' => null,
+            ),
+            '+352139+1384339+3776/' => array(
+                'latitude' => '35.360833333333',
+                'longitude' => '138.727500000000',
+                'altitude' => '3776',
+            ),
+            '+40.75-074.00/' => array(
+                'latitude' => '40.75',
+                'longitude' => '-74',
+                'altitude' => null,
+            ),
+            '+123456.7-0985432.1/' => array(
+                'latitude' => '12.582416666667',
+                'longitude' => '-98.908916666667',
+                'altitude' => null,
+            ),
+            '-90+000+2800/' => array(
+                'latitude' => '-90',
+                'longitude' => '0',
+                'altitude' => '2800',
+            ),
+            '+35.658632+139.745411/' => array(
+                'latitude' => '35.658632',
+                'longitude' => '139.745411',
+                'altitude' => null,
+            ),
+            '+48.8577+002.295/' => array(
+                'latitude' => '48.8577',
+                'longitude' => '2.295',
+                'altitude' => null,
+            ),
+            '+48.8577+002.295-50/' => array(
+                'latitude' => '48.8577',
+                'longitude' => '2.295',
+                'altitude' => '-50',
+            ),
         );
 
         foreach ($testcase as $key => $expected) {
@@ -420,62 +420,62 @@ class FFprobeMapperTest extends \PHPUnit\Framework\TestCase
         $reflMethod->setAccessible(true);
 
         $testcase = array(
-          '+27.5916' => array(
-                          'sign' => '+',
-                          'degrees' => '27',
-                          'minutes' => '',
-                          'seconds' => '',
-                          'fraction' => '.5916',
-                      ),
-          '+86.5640' => array(
-                          'sign' => '+',
-                          'degrees' => '86',
-                          'minutes' => '',
-                          'seconds' => '',
-                          'fraction' => '.5640',
-                      ),
-          '12.578333333333' => array(
-                          'sign' => '+',
-                          'degrees' => '12',
-                          'minutes' => '34',
-                          'seconds' => '',
-                          'fraction' => '.7',
-                      ),
-          '-98.901666666667' => array(
-                          'sign' => '-',
-                          'degrees' => '098',
-                          'minutes' => '54',
-                          'seconds' => '',
-                          'fraction' => '.1',
-                      ),
-          '+35.360833333333' => array(
-                          'sign' => '+',
-                          'degrees' => '35',
-                          'minutes' => '21',
-                          'seconds' => '39',
-                          'fraction' => '',
-                      ),
-          '+138.72750000000' => array(
-                          'sign' => '+',
-                          'degrees' => '138',
-                          'minutes' => '43',
-                          'seconds' => '39',
-                          'fraction' => '',
-                      ),
-          '12.582416666667' => array(
-                          'sign' => '+',
-                          'degrees' => '12',
-                          'minutes' => '34',
-                          'seconds' => '56',
-                          'fraction' => '.7',
-                      ),
-          '-98.908916666667' => array(
-                          'sign' => '-',
-                          'degrees' => '098',
-                          'minutes' => '54',
-                          'seconds' => '32',
-                          'fraction' => '.1',
-                      ),
+            '+27.5916' => array(
+                'sign' => '+',
+                'degrees' => '27',
+                'minutes' => '',
+                'seconds' => '',
+                'fraction' => '.5916',
+            ),
+            '+86.5640' => array(
+                'sign' => '+',
+                'degrees' => '86',
+                'minutes' => '',
+                'seconds' => '',
+                'fraction' => '.5640',
+            ),
+            '12.578333333333' => array(
+                'sign' => '+',
+                'degrees' => '12',
+                'minutes' => '34',
+                'seconds' => '',
+                'fraction' => '.7',
+            ),
+            '-98.901666666667' => array(
+                'sign' => '-',
+                'degrees' => '098',
+                'minutes' => '54',
+                'seconds' => '',
+                'fraction' => '.1',
+            ),
+            '+35.360833333333' => array(
+                'sign' => '+',
+                'degrees' => '35',
+                'minutes' => '21',
+                'seconds' => '39',
+                'fraction' => '',
+            ),
+            '+138.72750000000' => array(
+                'sign' => '+',
+                'degrees' => '138',
+                'minutes' => '43',
+                'seconds' => '39',
+                'fraction' => '',
+            ),
+            '12.582416666667' => array(
+                'sign' => '+',
+                'degrees' => '12',
+                'minutes' => '34',
+                'seconds' => '56',
+                'fraction' => '.7',
+            ),
+            '-98.908916666667' => array(
+                'sign' => '-',
+                'degrees' => '098',
+                'minutes' => '54',
+                'seconds' => '32',
+                'fraction' => '.1',
+            ),
         );
         foreach ($testcase as $expected => $key) {
             $result = $reflMethod->invoke($this->mapper, $key['sign'], $key['degrees'], $key['minutes'], $key['seconds'], $key['fraction']);
@@ -485,12 +485,12 @@ class FFprobeMapperTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @group mapper
-     * @covers \PHPExif\Mapper\FFprobe::mapRawData
+     * @covers \PHPExif\Mapper\Reader\FFprobe::mapRawData
      */
     public function testMapRawDataCorrectlyKeywords()
     {
         $rawData = array(
-            \PHPExif\Mapper\FFprobe::QUICKTIME_KEYWORDS => 'Keyword_1 Keyword_2',
+            \PHPExif\Mapper\Reader\FFprobe::QUICKTIME_KEYWORDS => 'Keyword_1 Keyword_2',
         );
 
         $mapped = $this->mapper->mapRawData($rawData);
@@ -503,12 +503,12 @@ class FFprobeMapperTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @group mapper
-     * @covers \PHPExif\Mapper\FFprobe::mapRawData
+     * @covers \PHPExif\Mapper\Reader\FFprobe::mapRawData
      */
     public function testMapRawDataCorrectlySplitKeywords()
     {
         $rawData = array(
-            \PHPExif\Mapper\FFprobe::QUICKTIME_KEYWORDS => 'Keyword_1,Keyword_2',
+            \PHPExif\Mapper\Reader\FFprobe::QUICKTIME_KEYWORDS => 'Keyword_1,Keyword_2',
         );
 
         $mapped = $this->mapper->mapRawData($rawData);
@@ -521,12 +521,12 @@ class FFprobeMapperTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @group mapper
-     * @covers \PHPExif\Mapper\FFprobe::mapRawData
+     * @covers \PHPExif\Mapper\Reader\FFprobe::mapRawData
      */
     public function testMapRawDataCorrectlyArrayKeywords()
     {
         $rawData = array(
-            \PHPExif\Mapper\FFprobe::QUICKTIME_KEYWORDS => array('Keyword_1', 'Keyword_2'),
+            \PHPExif\Mapper\Reader\FFprobe::QUICKTIME_KEYWORDS => array('Keyword_1', 'Keyword_2'),
         );
 
         $mapped = $this->mapper->mapRawData($rawData);

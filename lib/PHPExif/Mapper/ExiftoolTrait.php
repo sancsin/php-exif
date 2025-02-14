@@ -4,7 +4,7 @@ namespace PHPExif\Mapper;
 
 use PHPExif\Exif;
 
-trait ExifToolTrait
+trait ExiftoolTrait
 {
     public const APERTURE                 = 'Composite:Aperture';
     public const APPROXIMATEFOCUSDISTANCE = 'XMP-aux:ApproximateFocusDistance';

@@ -1,7 +1,7 @@
 <?php
 
 use PHPExif\Contracts\MapperInterface;
-use PhpExif\Mapper\Exiftool;
+use PhpExif\Mapper\Reader\Exiftool;
 
 class ExiftoolMapperTest extends \PHPUnit\Framework\TestCase
 {
@@ -161,22 +161,22 @@ class ExiftoolMapperTest extends \PHPUnit\Framework\TestCase
     public function testMapRawDataCorrectlyFormatsCreationDateWithTimeZone()
     {
         $data = array(
-          array(
-            Exiftool::DATETIMEORIGINAL => '2015:04:01 12:11:09+0200',
-          ),
-          array(
-              Exiftool::DATETIMEORIGINAL => '2015:04:01 12:11:09',
-              'ExifIFD:OffsetTimeOriginal' => '+0200',
-          ),
-          array(
-            Exiftool::DATETIMEORIGINAL => '2015:04:01 12:11:09',
-            'ExifIFD:OffsetTime' => '+0200',
-          ),
-          array(
-              Exiftool::DATETIMEORIGINAL_APPLE => '2015-04-01T12:11:09+0200',
-              Exiftool::DATETIMEORIGINAL => '2015:04:01 12:11:09',
-              'ExifIFD:OffsetTimeOriginal' => '+0200',
-          )
+            array(
+                Exiftool::DATETIMEORIGINAL => '2015:04:01 12:11:09+0200',
+            ),
+            array(
+                Exiftool::DATETIMEORIGINAL => '2015:04:01 12:11:09',
+                'ExifIFD:OffsetTimeOriginal' => '+0200',
+            ),
+            array(
+                Exiftool::DATETIMEORIGINAL => '2015:04:01 12:11:09',
+                'ExifIFD:OffsetTime' => '+0200',
+            ),
+            array(
+                Exiftool::DATETIMEORIGINAL_APPLE => '2015-04-01T12:11:09+0200',
+                Exiftool::DATETIMEORIGINAL => '2015:04:01 12:11:09',
+                'ExifIFD:OffsetTimeOriginal' => '+0200',
+            )
         );
 
         foreach ($data as $key => $rawData) {
@@ -281,9 +281,9 @@ class ExiftoolMapperTest extends \PHPUnit\Framework\TestCase
     public function testMapRawDataCorrectlyFormatsExposureTime()
     {
         $rawData = array(
-            '1/30'  => 10/300,
-            '1/400' => 2/800,
-            '1/400' => 1/400,
+            '1/30'  => 10 / 300,
+            '1/400' => 2 / 800,
+            '1/400' => 1 / 400,
             '0'     => 0,
         );
 
@@ -571,34 +571,34 @@ class ExiftoolMapperTest extends \PHPUnit\Framework\TestCase
     public function testMapRawDataCorrectlyHeightVideo()
     {
         $rawData = array(
-          '600'  => array(
-                            Exiftool::IMAGEHEIGHT_VIDEO  => '800x600',
-                        ),
-          '600'  => array(
-                            Exiftool::IMAGEHEIGHT_VIDEO  => '800x600',
-                            'Composite:Rotation'                        => '0',
-                        ),
-          '800'  => array(
-                            Exiftool::IMAGEHEIGHT_VIDEO  => '800x600',
-                            'Composite:Rotation'                        => '90',
-                       ),
-          '800'  => array(
-                            Exiftool::IMAGEHEIGHT_VIDEO  => '800x600',
-                            'Composite:Rotation'                        => '270',
-                        ),
-          '600'  => array(
-                            Exiftool::IMAGEHEIGHT_VIDEO  => '800x600',
-                            'Composite:Rotation'                        => '360',
-                        ),
-          '600'  => array(
-                            Exiftool::IMAGEHEIGHT_VIDEO  => '800x600',
-                            'Composite:Rotation'                        => '180',
-                        ),
-          '600'  => array(
-                            Exiftool::IMAGEHEIGHT_VIDEO  => '800 600',
-                            'Composite:Rotation'                        => '180',
-                        ),
-      );
+            '600'  => array(
+                Exiftool::IMAGEHEIGHT_VIDEO  => '800x600',
+            ),
+            '600'  => array(
+                Exiftool::IMAGEHEIGHT_VIDEO  => '800x600',
+                'Composite:Rotation'                        => '0',
+            ),
+            '800'  => array(
+                Exiftool::IMAGEHEIGHT_VIDEO  => '800x600',
+                'Composite:Rotation'                        => '90',
+            ),
+            '800'  => array(
+                Exiftool::IMAGEHEIGHT_VIDEO  => '800x600',
+                'Composite:Rotation'                        => '270',
+            ),
+            '600'  => array(
+                Exiftool::IMAGEHEIGHT_VIDEO  => '800x600',
+                'Composite:Rotation'                        => '360',
+            ),
+            '600'  => array(
+                Exiftool::IMAGEHEIGHT_VIDEO  => '800x600',
+                'Composite:Rotation'                        => '180',
+            ),
+            '600'  => array(
+                Exiftool::IMAGEHEIGHT_VIDEO  => '800 600',
+                'Composite:Rotation'                        => '180',
+            ),
+        );
 
         foreach ($rawData as $expected => $value) {
             $mapped = $this->mapper->mapRawData($value);
@@ -615,34 +615,34 @@ class ExiftoolMapperTest extends \PHPUnit\Framework\TestCase
     public function testMapRawDataCorrectlyWidthVideo()
     {
         $rawData = array(
-              '800'  => array(
-                                Exiftool::IMAGEWIDTH_VIDEO  => '800x600',
-                            ),
-              '800'  => array(
-                                Exiftool::IMAGEWIDTH_VIDEO  => '800x600',
-                                'Composite:Rotation'                        => '0',
-                            ),
-              '600'  => array(
-                                Exiftool::IMAGEWIDTH_VIDEO  => '800x600',
-                                'Composite:Rotation'                        => '90',
-                            ),
-              '600'  => array(
-                                Exiftool::IMAGEWIDTH_VIDEO  => '800x600',
-                                'Composite:Rotation'                        => '270',
-                            ),
-              '800'  => array(
-                                Exiftool::IMAGEWIDTH_VIDEO  => '800x600',
-                                'Composite:Rotation'                        => '360',
-                            ),
-              '800'  => array(
-                                Exiftool::IMAGEWIDTH_VIDEO  => '800x600',
-                                'Composite:Rotation'                        => '180',
-                            ),
-              '800'  => array(
-                                Exiftool::IMAGEWIDTH_VIDEO  => '800 600',
-                                'Composite:Rotation'                        => '180',
-                            ),
-          );
+            '800'  => array(
+                Exiftool::IMAGEWIDTH_VIDEO  => '800x600',
+            ),
+            '800'  => array(
+                Exiftool::IMAGEWIDTH_VIDEO  => '800x600',
+                'Composite:Rotation'                        => '0',
+            ),
+            '600'  => array(
+                Exiftool::IMAGEWIDTH_VIDEO  => '800x600',
+                'Composite:Rotation'                        => '90',
+            ),
+            '600'  => array(
+                Exiftool::IMAGEWIDTH_VIDEO  => '800x600',
+                'Composite:Rotation'                        => '270',
+            ),
+            '800'  => array(
+                Exiftool::IMAGEWIDTH_VIDEO  => '800x600',
+                'Composite:Rotation'                        => '360',
+            ),
+            '800'  => array(
+                Exiftool::IMAGEWIDTH_VIDEO  => '800x600',
+                'Composite:Rotation'                        => '180',
+            ),
+            '800'  => array(
+                Exiftool::IMAGEWIDTH_VIDEO  => '800 600',
+                'Composite:Rotation'                        => '180',
+            ),
+        );
 
         foreach ($rawData as $expected => $value) {
             $mapped = $this->mapper->mapRawData($value);
@@ -658,13 +658,13 @@ class ExiftoolMapperTest extends \PHPUnit\Framework\TestCase
     public function testMapRawDataCorrectlyIsoFormats()
     {
         $expected = array(
-                '80' => array(
-                    'ExifIFD:ISO'     => '80',
-                ),
-                '800' => array(
-                    'ExifIFD:ISO'     => '800 0 0',
-                ),
-            );
+            '80' => array(
+                'ExifIFD:ISO'     => '80',
+            ),
+            '800' => array(
+                'ExifIFD:ISO'     => '800 0 0',
+            ),
+        );
 
         foreach ($expected as $key => $value) {
             $result = $this->mapper->mapRawData($value);
@@ -688,7 +688,7 @@ class ExiftoolMapperTest extends \PHPUnit\Framework\TestCase
             array(
                 Exiftool::LENS_ID => 'LUMIX G VARIO 12-32/F3.5-5.6',
                 Exiftool::LENS => 'LEICA DG 12-60/F2.8-4.0',
-          )
+            )
         );
 
         foreach ($data as $key => $rawData) {
@@ -748,7 +748,7 @@ class ExiftoolMapperTest extends \PHPUnit\Framework\TestCase
         $mapped = $this->mapper->mapRawData($rawData);
 
         $this->assertEquals(
-            array('Keyword_1' ,'Keyword_2', 'Keyword_3'),
+            array('Keyword_1', 'Keyword_2', 'Keyword_3'),
             reset($mapped)
         );
     }

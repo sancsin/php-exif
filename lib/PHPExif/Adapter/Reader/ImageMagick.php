@@ -4,7 +4,7 @@ namespace PHPExif\Adapter\Reader;
 
 use PHPExif\Exif;
 use Imagick;
-use PHPExif\Mapper\ImageMagick as MapperImageMagick;
+use PHPExif\Mapper\Reader\ImageMagick as MapperImageMagick;
 use Safe\Exceptions\ImageException;
 
 use function Safe\filesize;

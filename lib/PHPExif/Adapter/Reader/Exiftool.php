@@ -3,7 +3,7 @@
 namespace PHPExif\Adapter\Reader;
 
 use PHPExif\Exif;
-use PHPExif\Mapper\Exiftool as MapperExiftool;
+use PHPExif\Mapper\Reader\Exiftool as MapperExiftool;
 use PHPExif\Adapter\ExiftoolTrait;
 use PHPExif\Reader\PhpExifReaderException;
 use Safe\Exceptions\JsonException;
@@ -23,7 +23,7 @@ use function Safe\fclose;
 class Exiftool extends AbstractAdapter
 {
 
-    use ExifToolTrait;
+    use ExiftoolTrait;
 
     protected string $mapperClass = MapperExiftool::class;
 

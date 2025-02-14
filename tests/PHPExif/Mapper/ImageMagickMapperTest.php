@@ -1,7 +1,7 @@
 <?php
 
 use PHPExif\Contracts\MapperInterface;
-use PHPExif\Mapper\ImageMagick;
+use PHPExif\Mapper\Reader\ImageMagick;
 
 class ImageMagickMapperTest extends \PHPUnit\Framework\TestCase
 {
@@ -109,21 +109,21 @@ class ImageMagickMapperTest extends \PHPUnit\Framework\TestCase
     public function testMapRawDataCorrectlyFormatsCreationDateWithTimeZone()
     {
         $data = array(
-          array(
-            ImageMagick::DATETIMEORIGINAL => '2015:04:01 12:11:09+0200',
-          ),
-          array(
-            ImageMagick::DATETIMEORIGINAL => '2015:04:01 12:11:09',
-            'exif:OffsetTimeOriginal' => '+0200',
-          ),
-          array(
-            ImageMagick::DATETIMEORIGINAL => '2015:04:01 12:11:09',
-            'exif:OffsetTime' => '+0200',
-          ),
-          array(
-            ImageMagick::DATETIMEORIGINAL => '2015:04:01 12:11:09',
-            'exif:OffsetTimeOriginal' => '+0200',
-          )
+            array(
+                ImageMagick::DATETIMEORIGINAL => '2015:04:01 12:11:09+0200',
+            ),
+            array(
+                ImageMagick::DATETIMEORIGINAL => '2015:04:01 12:11:09',
+                'exif:OffsetTimeOriginal' => '+0200',
+            ),
+            array(
+                ImageMagick::DATETIMEORIGINAL => '2015:04:01 12:11:09',
+                'exif:OffsetTime' => '+0200',
+            ),
+            array(
+                ImageMagick::DATETIMEORIGINAL => '2015:04:01 12:11:09',
+                'exif:OffsetTimeOriginal' => '+0200',
+            )
         );
 
         foreach ($data as $key => $rawData) {
@@ -144,7 +144,6 @@ class ImageMagickMapperTest extends \PHPUnit\Framework\TestCase
                 $result->getTimezone()->getName()
             );
         }
-
     }
 
     /**
@@ -215,9 +214,9 @@ class ImageMagickMapperTest extends \PHPUnit\Framework\TestCase
     public function testMapRawDataCorrectlyFormatsExposureTime()
     {
         $rawData = array(
-            '1/30'  => 10/300,
-            '1/400' => 2/800,
-            '1/400' => 1/400,
+            '1/30'  => 10 / 300,
+            '1/400' => 2 / 800,
+            '1/400' => 1 / 400,
             '0'     => 0,
         );
 
@@ -418,95 +417,95 @@ class ImageMagickMapperTest extends \PHPUnit\Framework\TestCase
     }
 
 
-        /**
-         * @group mapper
-             */
-        public function testMapRawDataCorrectlyIsoFormats()
-        {
-            $expected = array(
-                '80' => array(
-                    'exif:PhotographicSensitivity'     => '80',
-                ),
-                '800' => array(
-                    'exif:PhotographicSensitivity'     => '800 0 0',
-                ),
-                '100' => array(
-                    'exif:PhotographicSensitivity'     => '100, 0, 0',
-                ),
-            );
+    /**
+     * @group mapper
+     */
+    public function testMapRawDataCorrectlyIsoFormats()
+    {
+        $expected = array(
+            '80' => array(
+                'exif:PhotographicSensitivity'     => '80',
+            ),
+            '800' => array(
+                'exif:PhotographicSensitivity'     => '800 0 0',
+            ),
+            '100' => array(
+                'exif:PhotographicSensitivity'     => '100, 0, 0',
+            ),
+        );
 
-            foreach ($expected as $key => $value) {
-                $result = $this->mapper->mapRawData($value);
-                $this->assertEquals($key, reset($result));
-            }
+        foreach ($expected as $key => $value) {
+            $result = $this->mapper->mapRawData($value);
+            $this->assertEquals($key, reset($result));
         }
+    }
 
-        /**
-         * @group mapper
-             */
-        public function testMapRawDataCorrectlyHeightPNG()
-        {
+    /**
+     * @group mapper
+     */
+    public function testMapRawDataCorrectlyHeightPNG()
+    {
 
-            $rawData = array(
-                '600'  => array(
-                                  ImageMagick::IMAGEHEIGHT_PNG  => '800, 600',
-                              ),
-            );
+        $rawData = array(
+            '600'  => array(
+                ImageMagick::IMAGEHEIGHT_PNG  => '800, 600',
+            ),
+        );
 
-            foreach ($rawData as $expected => $value) {
-                $mapped = $this->mapper->mapRawData($value);
+        foreach ($rawData as $expected => $value) {
+            $mapped = $this->mapper->mapRawData($value);
 
-                $this->assertEquals($expected, $mapped['height']);
-            }
+            $this->assertEquals($expected, $mapped['height']);
         }
+    }
 
 
 
-      /**
-       * @group mapper
-         */
-      public function testMapRawDataCorrectlyWidthPNG()
-      {
+    /**
+     * @group mapper
+     */
+    public function testMapRawDataCorrectlyWidthPNG()
+    {
 
-          $rawData = array(
-              '800'  => array(
-                                ImageMagick::IMAGEWIDTH_PNG  => '800, 600',
-                            ),
-          );
+        $rawData = array(
+            '800'  => array(
+                ImageMagick::IMAGEWIDTH_PNG  => '800, 600',
+            ),
+        );
 
-          foreach ($rawData as $expected => $value) {
-              $mapped = $this->mapper->mapRawData($value);
+        foreach ($rawData as $expected => $value) {
+            $mapped = $this->mapper->mapRawData($value);
 
-              $this->assertEquals($expected, $mapped['width']);
-          }
-      }
+            $this->assertEquals($expected, $mapped['width']);
+        }
+    }
 
-      /**
-       * @group mapper
-       */
-      public function testNormalizeComponentCorrectly()
-      {
-          $reflMethod = new \ReflectionMethod(ImageMagick::class, 'normalizeComponent');
-          $reflMethod->setAccessible(true);
+    /**
+     * @group mapper
+     */
+    public function testNormalizeComponentCorrectly()
+    {
+        $reflMethod = new \ReflectionMethod(ImageMagick::class, 'normalizeComponent');
+        $reflMethod->setAccessible(true);
 
-          $rawData = array(
-              '2/800' => 0.0025,
-              '1/400' => 0.0025,
-              '0/1'   => 0,
-              '1/0'   => 0,
-              '0'     => 0,
-              'A'     => 0,
-              'A/1'     => 0,
-              '1/A'     => 0,
-              'A/A'     => 0,
-          );
+        $rawData = array(
+            '2/800' => 0.0025,
+            '1/400' => 0.0025,
+            '0/1'   => 0,
+            '1/0'   => 0,
+            '0'     => 0,
+            'A'     => 0,
+            'A/1'     => 0,
+            '1/A'     => 0,
+            'A/A'     => 0,
+        );
 
-          foreach ($rawData as $value => $expected) {
-              $normalized = $reflMethod->invoke($this->mapper, $value);
+        foreach ($rawData as $value => $expected) {
+            $normalized = $reflMethod->invoke($this->mapper, $value);
 
-              $this->assertEquals($expected, $normalized);
-          }
-      }
+            $this->assertEquals($expected, $normalized);
+        }
+    }
 
     /**
      * @group mapper
@@ -537,7 +536,7 @@ class ImageMagickMapperTest extends \PHPUnit\Framework\TestCase
         $mapped = $this->mapper->mapRawData($rawData);
 
         $this->assertEquals(
-            array('Keyword_1' ,'Keyword_2'),
+            array('Keyword_1', 'Keyword_2'),
             reset($mapped)
         );
     }

@@ -1,8 +1,9 @@
 <?php
 
-namespace PHPExif\Mapper;
+namespace PHPExif\Mapper\Reader;
 
 use PHPExif\Exif;
+use PHPExif\Mapper\AbstractMapper;
 use Safe\DateTime;
 
 use function Safe\preg_match;
@@ -112,8 +113,10 @@ class FFprobe extends AbstractMapper
                 case self::DATETIMEORIGINAL:
                     // QUICKTIME_DATE contains data on timezone
                     // only set value if QUICKTIME_DATE has not been used
-                    if (!isset($mappedData[Exif::CREATION_DATE])
-                            && preg_match('/^0000[-:]00[-:]00.00:00:00/', $value) === 0) {
+                    if (
+                        !isset($mappedData[Exif::CREATION_DATE])
+                        && preg_match('/^0000[-:]00[-:]00.00:00:00/', $value) === 0
+                    ) {
                         try {
                             // Some cameras add a '/' between date and time
                             // we need to remove it
@@ -148,9 +151,11 @@ class FFprobe extends AbstractMapper
                 case self::GPSLONGITUDE:
                     $matches = [];
                     preg_match('/^([+-][0-9\.]+)([+-][0-9\.]+)\/$/', $value, $matches);
-                    if (count($matches) === 3 &&
+                    if (
+                        count($matches) === 3 &&
                         preg_match('/^\+0+\.0+$/', $matches[1]) === 0 &&
-                        preg_match('/^\+0+\.0+$/', $matches[2]) === 0) {
+                        preg_match('/^\+0+\.0+$/', $matches[2]) === 0
+                    ) {
                         $mappedData[Exif::LATITUDE] = $matches[1];
                         $mappedData[Exif::LONGITUDE] = $matches[2];
                     }
@@ -186,8 +191,10 @@ class FFprobe extends AbstractMapper
         }
 
         // Swap width and height if needed
-        if (isset($data['tags']) && isset($data['tags']['rotate'])
-            && ($data['tags']['rotate'] === '90' || $data['tags']['rotate'] === '270')) {
+        if (
+            isset($data['tags']) && isset($data['tags']['rotate'])
+            && ($data['tags']['rotate'] === '90' || $data['tags']['rotate'] === '270')
+        ) {
             $tmp = $mappedData[Exif::WIDTH];
             $mappedData[Exif::WIDTH] = $mappedData[Exif::HEIGHT];
             $mappedData[Exif::HEIGHT] = $tmp;
@@ -314,16 +321,16 @@ class FFprobe extends AbstractMapper
 
         preg_match(
             '/^(?<lat_sign>\+|-)' .
-            '(?<lat_degrees>[0,1]?\d{2})' .
-            '(?<lat_minutes>\d{2}?)?' .
-            '(?<lat_seconds>\d{2}?)?' .
-            '(?<lat_fraction>\.\d+)?' .
-            '(?<lng_sign>\+|-)' .
-            '(?<lng_degrees>[0,1]?\d{2})' .
-            '(?<lng_minutes>\d{2}?)?' .
-            '(?<lng_seconds>\d{2}?)?' .
-            '(?<lng_fraction>\.\d+)?' .
-            '(?<alt>[\+\-][0-9]\d*(\.\d+)?)?\/$/',
+                '(?<lat_degrees>[0,1]?\d{2})' .
+                '(?<lat_minutes>\d{2}?)?' .
+                '(?<lat_seconds>\d{2}?)?' .
+                '(?<lat_fraction>\.\d+)?' .
+                '(?<lng_sign>\+|-)' .
+                '(?<lng_degrees>[0,1]?\d{2})' .
+                '(?<lng_minutes>\d{2}?)?' .
+                '(?<lng_seconds>\d{2}?)?' .
+                '(?<lng_fraction>\.\d+)?' .
+                '(?<alt>[\+\-][0-9]\d*(\.\d+)?)?\/$/',
             $val_ISO6709,
             $matches
         );

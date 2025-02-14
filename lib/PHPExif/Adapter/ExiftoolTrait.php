@@ -5,7 +5,7 @@ namespace PHPExif\Adapter;
 use InvalidArgumentException;
 use Safe\Exceptions\ExecException;
 
-trait ExifToolTrait
+trait ExiftoolTrait
 {
     public const TOOL_NAME = 'exiftool';
 

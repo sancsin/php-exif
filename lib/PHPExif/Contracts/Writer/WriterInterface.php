@@ -4,7 +4,7 @@
  * @codeCoverageIgnore
  */
 
-namespace PHPExif\Contracts;
+namespace PHPExif\Contracts\Writer;
 
 use PHPExif\Exif;
 

@@ -15,7 +15,7 @@ namespace PHPExif\Adapter\Reader;
 use PHPExif\Exif;
 use InvalidArgumentException;
 use FFMpeg;
-use PHPExif\Mapper\FFprobe as MapperFFprobe;
+use PHPExif\Mapper\Reader\FFprobe as MapperFFprobe;
 use PHPExif\Reader\PhpExifReaderException;
 use Safe\Exceptions\ExecException;
 

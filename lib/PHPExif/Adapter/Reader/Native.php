@@ -3,7 +3,7 @@
 namespace PHPExif\Adapter\Reader;
 
 use PHPExif\Exif;
-use PHPExif\Mapper\Native as MapperNative;
+use PHPExif\Mapper\Reader\Native as MapperNative;
 use Safe\Exceptions\ImageException;
 
 use function Safe\mime_content_type;
