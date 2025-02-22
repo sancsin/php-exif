@@ -1,7 +1,9 @@
 <?php
 
+namespace PHPExif\Mapper\Reader;
+
 use PHPExif\Contracts\MapperInterface;
-use PhpExif\Mapper\Reader\Exiftool;
+use PHPExif\Mapper\Reader\Exiftool;
 
 class ExiftoolMapperTest extends \PHPUnit\Framework\TestCase
 {

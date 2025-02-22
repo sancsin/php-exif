@@ -1,5 +1,7 @@
 <?php
 
+namespace PHPExif\Mapper\Reader;
+
 use PHPExif\Contracts\MapperInterface;
 use PHPExif\Mapper\Reader\ImageMagick;
 

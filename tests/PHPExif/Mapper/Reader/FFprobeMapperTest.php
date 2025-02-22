@@ -1,5 +1,7 @@
 <?php
 
+namespace PHPExif\Mapper\Reader;
+
 use FFMpeg\FFProbe as FFMpegFFProbe;
 use PHPExif\Contracts\MapperInterface;
 use PHPExif\Mapper\Reader\FFprobe;
