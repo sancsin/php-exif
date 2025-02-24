@@ -12,16 +12,28 @@ class Exiftool extends AbstractMapper
     public function mapRawData(array $data): array
     {
         $mappedData = [];
-        $reverseMap = array_flip($this->map);
+        $allKeysForSameValues = $this->getAllKeysForSameValues($this->map);
 
-        foreach ($data as $field => $value) {
-            if (!array_key_exists($field, $reverseMap)) {
+        foreach ($data as $dataKey => $dataValue) {
+            if (!array_key_exists($dataKey, $allKeysForSameValues)) {
                 continue;
             }
 
-            $mappedData[$reverseMap[$field]] = $value;
+            foreach ($allKeysForSameValues[$dataKey] as $value) {
+                $mappedData[$value] = $dataValue;
+            }
         }
 
         return $mappedData;
+    }
+
+    private function getAllKeysForSameValues(array $inputArray): array
+    {
+        $result = [];
+        foreach ($inputArray as $key => $value) {
+            $result[$value][] = $key;
+        }
+
+        return $result;
     }
 }
