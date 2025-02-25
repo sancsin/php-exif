@@ -42,19 +42,20 @@ class ExiftoolMapperTest extends \PHPUnit\Framework\TestCase
 
     public function testMapRawDataMapsAllValues()
     {
+        $dateValue = date('YYYY-MM-DD HH:MM:SS');
         $inputData = array(
-            Exif::CREATION_DATE => '2022-05-03 13:45:13'
+            Exif::CREATION_DATE => $dateValue
         );
 
         $expectedData = array(
-            Exiftool::DATETIMEORIGINAL => '2022-05-03 13:45:13',
-            Exiftool::DATETIMEORIGINAL_QUICKTIME => '2022-05-03 13:45:13',
-            Exiftool::DATETIMEORIGINAL_AVI => '2022-05-03 13:45:13',
-            Exiftool::DATETIMEORIGINAL_WEBM => '2022-05-03 13:45:13',
-            Exiftool::DATETIMEORIGINAL_OGG => '2022-05-03 13:45:13',
-            Exiftool::DATETIMEORIGINAL_WMV => '2022-05-03 13:45:13',
-            Exiftool::DATETIMEORIGINAL_APPLE => '2022-05-03 13:45:13',
-            Exiftool::DATETIMEORIGINAL_PNG => '2022-05-03 13:45:13'
+            Exiftool::DATETIMEORIGINAL => $dateValue,
+            Exiftool::DATETIMEORIGINAL_QUICKTIME => $dateValue,
+            Exiftool::DATETIMEORIGINAL_AVI => $dateValue,
+            Exiftool::DATETIMEORIGINAL_WEBM => $dateValue,
+            Exiftool::DATETIMEORIGINAL_OGG => $dateValue,
+            Exiftool::DATETIMEORIGINAL_WMV => $dateValue,
+            Exiftool::DATETIMEORIGINAL_APPLE => $dateValue,
+            Exiftool::DATETIMEORIGINAL_PNG => $dateValue
         );
 
         $mappedData = $this->mapper->mapRawData($inputData);
