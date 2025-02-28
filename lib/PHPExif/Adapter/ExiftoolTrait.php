@@ -4,6 +4,7 @@ namespace PHPExif\Adapter;
 
 use InvalidArgumentException;
 use Safe\Exceptions\ExecException;
+use PHPExif\Reader\PhpExifReaderException;
 
 trait ExiftoolTrait
 {
@@ -121,5 +122,38 @@ trait ExiftoolTrait
         }
 
         return $this->toolPath;
+    }
+
+    /**
+     * Returns the output from given cli command
+     *
+     * @param string $command
+     * @return string|false
+     * @throws PhpExifReaderException If the command can't be executed
+     */
+    protected function getCliOutput(string $command): string|false
+    {
+        $descriptorspec = array(
+            0 => array('pipe', 'r'),
+            1 => array('pipe', 'w'),
+            2 => array('pipe', 'a')
+        );
+
+        $process = proc_open($command, $descriptorspec, $pipes);
+
+        if (!is_resource($process)) {
+            throw new PhpExifReaderException(
+                'Could not open a resource to the exiftool binary'
+            );
+        }
+
+        $result = stream_get_contents($pipes[1]);
+        fclose($pipes[0]);
+        fclose($pipes[1]);
+        fclose($pipes[2]);
+
+        proc_close($process);
+
+        return $result;
     }
 }

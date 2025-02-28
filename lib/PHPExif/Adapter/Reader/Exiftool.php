@@ -5,12 +5,11 @@ namespace PHPExif\Adapter\Reader;
 use PHPExif\Exif;
 use PHPExif\Mapper\Reader\Exiftool as MapperExiftool;
 use PHPExif\Adapter\ExiftoolTrait;
-use PHPExif\Reader\PhpExifReaderException;
+
 use Safe\Exceptions\JsonException;
+use PHPExif\Reader\PhpExifReaderException;
 
 use function Safe\json_decode;
-use function Safe\stream_get_contents;
-use function Safe\fclose;
 
 /**
  * PHP Exif Exiftool Reader Adapter
@@ -105,38 +104,5 @@ class Exiftool extends AbstractAdapter
         $exif->setRawData(reset($data));
 
         return $exif;
-    }
-
-    /**
-     * Returns the output from given cli command
-     *
-     * @param string $command
-     * @return string|false
-     * @throws PhpExifReaderException If the command can't be executed
-     */
-    protected function getCliOutput(string $command): string|false
-    {
-        $descriptorspec = array(
-            0 => array('pipe', 'r'),
-            1 => array('pipe', 'w'),
-            2 => array('pipe', 'a')
-        );
-
-        $process = proc_open($command, $descriptorspec, $pipes);
-
-        if (!is_resource($process)) {
-            throw new PhpExifReaderException(
-                'Could not open a resource to the exiftool binary'
-            );
-        }
-
-        $result = stream_get_contents($pipes[1]);
-        fclose($pipes[0]);
-        fclose($pipes[1]);
-        fclose($pipes[2]);
-
-        proc_close($process);
-
-        return $result;
     }
 }
