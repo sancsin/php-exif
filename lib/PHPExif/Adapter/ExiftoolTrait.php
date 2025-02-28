@@ -5,6 +5,8 @@ namespace PHPExif\Adapter;
 use InvalidArgumentException;
 use Safe\Exceptions\ExecException;
 use PHPExif\Reader\PhpExifReaderException;
+use function Safe\stream_get_contents;
+use function Safe\fclose;
 
 trait ExiftoolTrait
 {
