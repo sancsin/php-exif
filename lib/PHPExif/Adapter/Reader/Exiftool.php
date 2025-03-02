@@ -91,7 +91,7 @@ class Exiftool extends AbstractAdapter
 
         // map the data:
         /**
-         * @var \PHPExif\Mapper\Exiftool
+         * @var \PHPExif\Mapper\Reader\Exiftool
          */
         $mapper = $this->getMapper();
         $mapper->setNumeric($this->numeric);
