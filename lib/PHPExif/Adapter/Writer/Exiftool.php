@@ -18,5 +18,24 @@ class Exiftool extends AbstractAdapter
         $this->toolPath = $path;
     }
 
-    public function writeExifToFile(Exif $exif, string $file): void {}
+    public function writeExifToFile(Exif $exif, string $file): void
+    {
+        $encoding = '';
+        if (count($this->encoding) > 0) {
+            $encoding = '-charset ';
+            foreach ($this->encoding as $key => $value) {
+                $encoding .= escapeshellarg($key) . '=' . escapeshellarg($value);
+            }
+        }
+        /**
+         * @var \PHPExif\Mapper\Writer\Exiftool
+         */
+        $mapper = $this->getMapper();
+        $mapper->setNumeric($this->numeric);
+
+        $extractor = $this->getExtractor();
+        $data = $extractor->extract($exif, $mapper->getMap());
+
+        $rawData = $mapper->mapRawData($data);
+    }
 }
