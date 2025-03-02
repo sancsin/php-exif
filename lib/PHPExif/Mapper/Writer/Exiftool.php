@@ -36,4 +36,9 @@ class Exiftool extends AbstractMapper
 
         return $result;
     }
+
+    public function getMap(): array
+    {
+        return $this->map;
+    }
 }
