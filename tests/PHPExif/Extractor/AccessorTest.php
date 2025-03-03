@@ -54,6 +54,26 @@ class AccessorTest extends \PHPUnit\Framework\TestCase
         $accessor->extract($mock, $inputs);
     }
 
+    public function testExtractResultEmptyArray()
+    {
+        $inputs = array(
+            'faz' => 'food'
+        );
+
+        $expected = [];
+
+        $mock = $this->getMockBuilder(AccessorTestClass::class)
+            ->onlyMethods(array('getFoo', 'getBar'))
+            ->getMock();
+        $mock->method('getFoo')->willReturn('FooValue');
+        $mock->method('getBar')->willReturn('BarValue');
+
+        $accessor = new Accessor();
+        $result = $accessor->extract($mock, $inputs);
+
+        $this->assertEquals($result, $expected);
+    }
+
     public function testExtractReturnArray()
     {
         $inputs = array(
