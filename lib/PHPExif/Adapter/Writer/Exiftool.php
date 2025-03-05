@@ -43,23 +43,25 @@ class Exiftool extends AbstractAdapter
         $result = $this->getCliOutput($command);
     }
 
-    private function getExifWriteCommand(array $rawData, string $file, string $encoding): string
+    private function getExifWriteCommand(array $rawData, string $file, string $encoding = ""): string
     {
         $command = [];
         $command[] = $this->toolPath;
         $command[] = ' ';
         foreach ($rawData as $key => $value) {
-            $command[] = "-if";
+            $command[] = '-if "defined';
             $command[] = " ";
-            $command[] = '"$' . $key . '"';
+            $command[] = '\${' . $key . '}"';
             $command[] = " ";
-            $command[] = "-$key=" . '"' . $value . '"';
+            $command[] = "-" . $key . "=" . '"' . $value . '"';
             $command[] = " ";
         }
 
-        $command[] = "-overwrite_original";
-        $command[] = " ";
         $command[] = $encoding;
+        $command[] = " ";
+        $command[] = "-o";
+        $command[] = " ";
+        $command[] = "temp.jpg";
         $command[] = " ";
         $command[] = escapeshellarg($file);
 
