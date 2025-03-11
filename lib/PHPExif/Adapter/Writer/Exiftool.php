@@ -5,6 +5,7 @@ namespace PHPExif\Adapter\Writer;
 use PHPExif\Exif;
 use PHPExif\Mapper\Writer\Exiftool as MapperExiftool;
 use PHPExif\Adapter\ExiftoolTrait;
+use Safe\DateTime;
 
 class Exiftool extends AbstractAdapter
 {
@@ -18,7 +19,7 @@ class Exiftool extends AbstractAdapter
         $this->toolPath = $path;
     }
 
-    public function writeExifToFile(Exif $exif, string $file): void
+    public function writeExifToFile(Exif $exif, string $file): string|false
     {
         $encoding = '';
         if (count($this->encoding) > 0) {
@@ -36,11 +37,11 @@ class Exiftool extends AbstractAdapter
         $extractor = $this->getExtractor();
         $data = $extractor->extract($exif, $mapper->getMap());
 
-        $rawData = $mapper->mapRawData($data);
-
-        $command = $this->getExifWriteCommand($rawData, $file, $encoding);
+        $command = $this->getExifWriteCommand($data, $file, $encoding);
 
         $result = $this->getCliOutput($command);
+
+        return $result;
     }
 
     private function getExifWriteCommand(array $rawData, string $file, string $encoding = ""): string
@@ -48,20 +49,33 @@ class Exiftool extends AbstractAdapter
         $command = [];
         $command[] = $this->toolPath;
         $command[] = ' ';
+        $command[] = '-m';
+        $command[] = ' ';
+        $command[] = '-overwrite_original';
+        $command[] = ' ';
         foreach ($rawData as $key => $value) {
+            $is_array = false;
+            if (is_object($value) && get_class($value) == 'DateTime') {
+                $value = $value->format('Y-m-d H:i:sP');
+            } else if (is_array($value)) {
+                $value = implode(', ', $value);
+                $is_array = true;
+            }
             $command[] = '-if "defined';
             $command[] = " ";
             $command[] = '\${' . $key . '}"';
             $command[] = " ";
+            if ($is_array) {
+                $command[] = "-sep";
+                $command[] = " ";
+                $command[] = escapeshellarg(",");
+                $command[] = " ";
+            }
             $command[] = "-" . $key . "=" . '"' . $value . '"';
             $command[] = " ";
         }
 
         $command[] = $encoding;
-        $command[] = " ";
-        $command[] = "-o";
-        $command[] = " ";
-        $command[] = "temp.jpg";
         $command[] = " ";
         $command[] = escapeshellarg($file);
 
