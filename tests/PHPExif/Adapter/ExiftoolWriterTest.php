@@ -27,7 +27,7 @@ class ExiftoolWriterTest extends \PHPUnit\Framework\TestCase
 
         $expected = escapeshellarg('exiftool') .
             ' -m -overwrite_original -if "defined \${ExifIFD:DateTimeOriginal}" -ExifIFD:DateTimeOriginal="2020:01:01 12:00:00" -if "defined \${ExifIFD:ISO}" -ExifIFD:ISO="100"  ' .
-            escapeshellarg('/Users/sanchitsingh/source/forks/php-exif/tests/files/morning_glory_pool_500.jpg');
+            escapeshellarg(PHPEXIF_TEST_ROOT . '/files/morning_glory_pool_500.jpg');
 
         $result = $reflectionMethod->invoke($this->adapter, $input, $file);
         $this->assertEquals($expected, $result);
