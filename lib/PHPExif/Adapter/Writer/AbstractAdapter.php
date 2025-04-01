@@ -10,6 +10,13 @@ use PHPExif\Contracts\Reader\HydratorInterface;
 use PHPExif\Extractor\Accessor;
 use PHPExif\Hydrator\Mutator;
 
+/**
+ * PHP Exif Writer Adapter Abstract
+ *
+ * Implements common functionality for the writer adapters
+ *
+ * @package PHPExif\Adapter\Writer
+ */
 abstract class AbstractAdapter implements AdapterInterface
 {
     use ConvertToUTF8Trait;
@@ -24,6 +31,12 @@ abstract class AbstractAdapter implements AdapterInterface
     /** @var class-string $mapperClass */
     protected string $mapperClass;
 
+    /**
+     * Class constructor
+     *
+     * @param array $options Optional array of data to initialize the object with
+     * @return void
+     */
     public function __construct(array $options = [])
     {
         if (count($options) > 0) {
@@ -31,6 +44,12 @@ abstract class AbstractAdapter implements AdapterInterface
         }
     }
 
+    /**
+     * Mutator for the data mapper
+     *
+     * @param \PHPExif\Contracts\MapperInterface $mapper
+     * @return \PHPExif\Contracts\Writer\AdapterInterface
+     */
     final public function setMapper(MapperInterface $mapper): AdapterInterface
     {
         $this->mapper = $mapper;
@@ -38,6 +57,11 @@ abstract class AbstractAdapter implements AdapterInterface
         return $this;
     }
 
+    /**
+     * Accessor for the data mapper
+     *
+     * @return \PHPExif\Contracts\MapperInterface
+     */
     public function getMapper(): MapperInterface
     {
         if ($this->mapper === null) {
@@ -51,6 +75,12 @@ abstract class AbstractAdapter implements AdapterInterface
         return $this->mapper;
     }
 
+    /**
+     * Mutator for the extractor
+     *
+     * @param \PHPExif\Contracts\Writer\ExtractorInterface $extractor
+     * @return \PHPExif\Contracts\Writer\AdapterInterface
+     */
     public function setExtractor(ExtractorInterface $extractor): AdapterInterface
     {
         $this->extractor = $extractor;
@@ -58,6 +88,10 @@ abstract class AbstractAdapter implements AdapterInterface
         return $this;
     }
 
+    /**
+     * Accessor for the data extractor
+     * @return \PHPExif\Contracts\Writer\ExtractorInterface
+     */
     public function getExtractor(): ExtractorInterface
     {
         if ($this->extractor === null) {
@@ -71,6 +105,11 @@ abstract class AbstractAdapter implements AdapterInterface
         return $this->extractor;
     }
 
+    /**
+     * Mutator for the hydrator
+     * @param \PHPExif\Contracts\Reader\HydratorInterface $hydrator
+     * @return \PHPExif\Contracts\Writer\AdapterInterface
+     */
     public function setHydrator(HydratorInterface $hydrator): AdapterInterface
     {
         $this->hydrator = $hydrator;
@@ -78,6 +117,10 @@ abstract class AbstractAdapter implements AdapterInterface
         return $this;
     }
 
+    /**
+     * Accessor for the data hydrator
+     * @return \PHPExif\Contracts\Writer\HydratorInterface
+     */
     public function getHydrator(): HydratorInterface
     {
         if ($this->hydrator === null) {
@@ -91,6 +134,11 @@ abstract class AbstractAdapter implements AdapterInterface
         return $this->hydrator;
     }
 
+    /**
+     * Set array of options in the current object
+     * @param array $options
+     * @return \PHPExif\Contracts\Writer\AdapterInterface
+     */
     public function setOptions(array $options): AdapterInterface
     {
         $hyderator = $this->getHydrator();
