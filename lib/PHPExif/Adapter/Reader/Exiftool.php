@@ -27,7 +27,7 @@ class Exiftool extends AbstractAdapter
     protected string $mapperClass = MapperExiftool::class;
 
     /**
-     * Set up Exiftool adapter
+     * Set up Exiftool reader adapter
      *
      * @param array $options option to be passed to the parent
      * @param string $path optional path to the tool

@@ -5,7 +5,17 @@ namespace PHPExif\Adapter\Writer;
 use PHPExif\Exif;
 use PHPExif\Mapper\Writer\Exiftool as MapperExiftool;
 use PHPExif\Adapter\ExiftoolTrait;
+use PHPExif\Reader\PhpExifReaderException;
 use Safe\DateTime;
+
+/**
+ * PHP Exif Exiftool Writer Adapter
+ *
+ * Uses native PHP functionality to write data to a file
+ *
+ * @category    PHPExif
+ * @package     Writer
+ */
 
 class Exiftool extends AbstractAdapter
 {
@@ -13,12 +23,27 @@ class Exiftool extends AbstractAdapter
 
     protected string $mapperClass = MapperExiftool::class;
 
+    /**
+     * Set up Exiftool writer adapter
+     * @param array $options option to be passed to the parent
+     * @param string $path optional path to the tool
+     * @return self
+     */
     public function __construct(array $options = [], string $path = '')
     {
         parent::__construct($options);
         $this->toolPath = $path;
     }
 
+    /**
+     * Writes the EXIF data to given file by reading from
+     * an EXIF object
+     *
+     * @param Exif $exif the EXIF object to read EXIF data from
+     * @param string $file the image/video file to write EXIF data to
+     * @return string|false
+     * @throws PhpExifReaderException
+     */
     public function writeExifToFile(Exif $exif, string $file): string|false
     {
         $encoding = '';
@@ -44,7 +69,16 @@ class Exiftool extends AbstractAdapter
         return $result;
     }
 
-    private function getExifWriteCommand(array $rawData, string $file, string $encoding = ""): string
+    /**
+     * Generates the command to be executed using the tool
+     * based on the data to be written to the file
+     *
+     * @param array $data array of data to be written to the file
+     * @param string $file the file path
+     * @param string $encoding encoding to be used by the tool
+     * @return string the command to be executed
+     */
+    private function getExifWriteCommand(array $data, string $file, string $encoding = ""): string
     {
         $command = [];
         $command[] = $this->toolPath;
@@ -53,7 +87,7 @@ class Exiftool extends AbstractAdapter
         $command[] = ' ';
         $command[] = '-overwrite_original';
         $command[] = ' ';
-        foreach ($rawData as $key => $value) {
+        foreach ($data as $key => $value) {
             $is_array = false;
             if (is_object($value) && get_class($value) == 'DateTime') {
                 $value = $value->format('Y-m-d H:i:sP');
