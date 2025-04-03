@@ -41,10 +41,10 @@ class Exiftool extends AbstractAdapter
      *
      * @param Exif $exif the EXIF object to read EXIF data from
      * @param string $file the image/video file to write EXIF data to
-     * @return string|false
+     * @return string returns the output of the command
      * @throws PhpExifException
      */
-    public function writeExifToFile(Exif $exif, string $file): string|false
+    public function writeExifToFile(Exif $exif, string $file): string
     {
         $encoding = '';
         if (count($this->encoding) > 0) {
@@ -64,6 +64,7 @@ class Exiftool extends AbstractAdapter
 
         $command = $this->getExifWriteCommand($data, $file, $encoding);
 
+        // This line will throw exception if the command fails
         $result = $this->getCliOutput($command);
 
         return $result;
