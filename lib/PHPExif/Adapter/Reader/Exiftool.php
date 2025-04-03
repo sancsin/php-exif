@@ -7,7 +7,7 @@ use PHPExif\Mapper\Reader\Exiftool as MapperExiftool;
 use PHPExif\Adapter\ExiftoolTrait;
 
 use Safe\Exceptions\JsonException;
-use PHPExif\Reader\PhpExifReaderException;
+use PHPExif\PhpExifException;
 
 use function Safe\json_decode;
 
@@ -44,7 +44,7 @@ class Exiftool extends AbstractAdapter
      *
      * @param string $file
      * @return Exif Instance of Exif object with data
-     * @throws PhpExifReaderException If the EXIF data could not be read
+     * @throws PhpExifException If the EXIF data could not be read
      */
     public function getExifFromFile(string $file): Exif
     {
@@ -83,7 +83,7 @@ class Exiftool extends AbstractAdapter
         }
         if (!is_array($data)) {
             // @codeCoverageIgnoreStart
-            throw new PhpExifReaderException(
+            throw new PhpExifException(
                 'Could not decode exiftool output'
             );
             // @codeCoverageIgnoreEnd

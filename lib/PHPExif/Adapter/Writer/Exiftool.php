@@ -5,7 +5,7 @@ namespace PHPExif\Adapter\Writer;
 use PHPExif\Exif;
 use PHPExif\Mapper\Writer\Exiftool as MapperExiftool;
 use PHPExif\Adapter\ExiftoolTrait;
-use PHPExif\Reader\PhpExifReaderException;
+use PHPExif\PhpExifException;
 use Safe\DateTime;
 
 /**
@@ -42,7 +42,7 @@ class Exiftool extends AbstractAdapter
      * @param Exif $exif the EXIF object to read EXIF data from
      * @param string $file the image/video file to write EXIF data to
      * @return string|false
-     * @throws PhpExifReaderException
+     * @throws PhpExifException
      */
     public function writeExifToFile(Exif $exif, string $file): string|false
     {

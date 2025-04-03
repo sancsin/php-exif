@@ -2,7 +2,7 @@
 
 use PHPExif\Adapter\Reader\FFprobe;
 use PHPExif\Exif;
-use PHPExif\Reader\PhpExifReaderException;
+use PHPExif\PhpExifException;
 
 class FFprobeTest extends \PHPUnit\Framework\TestCase
 {
@@ -85,7 +85,7 @@ class FFprobeTest extends \PHPUnit\Framework\TestCase
     public function testErrorImageUsed()
     {
         $file = PHPEXIF_TEST_ROOT . '/files/morning_glory_pool_500.jpg';
-        $this->expectException(PhpExifReaderException::class);
+        $this->expectException(PhpExifException::class);
         $this->adapter->getExifFromFile($file);
     }
 }

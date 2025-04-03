@@ -7,7 +7,7 @@
 namespace PHPExif\Contracts\Reader;
 
 use PHPExif\Exif;
-use PHPExif\Reader\PhpExifReaderException;
+use PHPExif\PhpExifException;
 
 /**
  * PHP Exif Reader Adapter
@@ -24,7 +24,7 @@ interface AdapterInterface
      *
      * @param string $file
      * @return Exif Instance of Exif object with data
-     * @throws PhpExifReaderException If the EXIF data could not be read
+     * @throws PhpExifException If the EXIF data could not be read
      */
     public function getExifFromFile(string $file): Exif;
 }

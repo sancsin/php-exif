@@ -52,7 +52,7 @@ class Reader implements ReaderInterface
      *
      * @param string $file
      * @return Exif Instance of Exif object with data
-     * @throws PhpExifReaderException If the EXIF data could not be read
+     * @throws PhpExifException If the EXIF data could not be read
      */
     public function read(string $file): Exif
     {

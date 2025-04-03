@@ -4,10 +4,14 @@ namespace PHPExif\Adapter;
 
 use InvalidArgumentException;
 use Safe\Exceptions\ExecException;
-use PHPExif\Reader\PhpExifReaderException;
+use PHPExif\PhpExifException;
 use function Safe\stream_get_contents;
 use function Safe\fclose;
 
+/**
+ * ExiftoolTrait contains common functionality for classes
+ * that use exiftool
+ */
 trait ExiftoolTrait
 {
     public const TOOL_NAME = 'exiftool';
@@ -131,7 +135,7 @@ trait ExiftoolTrait
      *
      * @param string $command
      * @return string|false
-     * @throws PhpExifReaderException If the command can't be executed
+     * @throws PhpExifException If the command can't be executed
      */
     protected function getCliOutput(string $command): string|false
     {
@@ -144,7 +148,7 @@ trait ExiftoolTrait
         $process = proc_open($command, $descriptorspec, $pipes);
 
         if (!is_resource($process)) {
-            throw new PhpExifReaderException(
+            throw new PhpExifException(
                 'Could not open a resource to the exiftool binary'
             );
         }
