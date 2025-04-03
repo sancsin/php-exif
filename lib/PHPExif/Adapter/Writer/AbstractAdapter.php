@@ -15,7 +15,8 @@ use PHPExif\Hydrator\Mutator;
  *
  * Implements common functionality for the writer adapters
  *
- * @package PHPExif\Adapter\Writer
+ * @category    PHPExif
+ * @package     Writer
  */
 abstract class AbstractAdapter implements AdapterInterface
 {
