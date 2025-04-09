@@ -2,9 +2,9 @@
 
 namespace PHPExif\Writer;
 
-use PHPExif\Adapter\Exiftool as ExiftoolAdapter;
-use PHPExif\Contracts\AdapterInterface;
-use PHPExif\Contracts\WriterInterface;
+use PHPExif\Adapter\Writer\Exiftool as ExiftoolAdapter;
+use PHPExif\Contracts\Writer\AdapterInterface;
+use PHPExif\Contracts\Writer\WriterInterface;
 use PHPExif\Enum\WriterType;
 use PHPExif\Exif;
 
@@ -24,6 +24,6 @@ class Writer implements WriterInterface
 
     public function write(Exif $exif, string $file): void
     {
-        return $this->adapter->writeExifToFile($exif, $file);
+        $this->adapter->writeExifToFile($exif, $file);
     }
 }

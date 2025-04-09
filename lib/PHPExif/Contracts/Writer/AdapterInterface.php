@@ -23,8 +23,7 @@ interface AdapterInterface
      *
      * @param Exif $exif The EXIF data to be written
      * @param string $file The file path to write the EXIF data to
-     * @return string The output of the command
      * @throws PhpExifWriterException If the EXIF data could not be written
      */
-    public function writeExifToFile(Exif $exif, string $file): string;
+    public function writeExifToFile(Exif $exif, string $file): void;
 }
