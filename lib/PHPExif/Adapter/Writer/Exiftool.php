@@ -41,9 +41,10 @@ class Exiftool extends AbstractAdapter
      *
      * @param Exif $exif the EXIF object to read EXIF data from
      * @param string $file the image/video file to write EXIF data to
+     * @param array Optional $exifProps containting EXIF properties to be written to the files
      * @throws PhpExifException
      */
-    public function writeExifToFile(Exif $exif, string $file): void
+    public function writeExifToFile(Exif $exif, array $exifProps = [], string $file): void
     {
         $encoding = '';
         if (count($this->encoding) > 0) {
@@ -59,7 +60,7 @@ class Exiftool extends AbstractAdapter
         $mapper->setNumeric($this->numeric);
 
         $extractor = $this->getExtractor();
-        $data = $extractor->extract($exif, $mapper->getMap());
+        $data = $extractor->extract($exif, $mapper->getMap(), $exifProps);
 
         $command = $this->getExifWriteCommand($data, $file, $encoding);
 
