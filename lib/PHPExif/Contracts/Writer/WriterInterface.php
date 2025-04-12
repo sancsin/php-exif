@@ -24,7 +24,8 @@ interface WriterInterface
      *
      * @param  \PHPExif\Exif Instance of Exif object with data
      * @param string $file
+     * @param array $exifProps Optional array of EXIF properties to be written to the file
      * @return void
      */
-    public function write(Exif $exif, string $file): void;
+    public function write(Exif $exif, array $exifProps, string $file): void;
 }

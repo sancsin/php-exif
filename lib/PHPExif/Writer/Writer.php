@@ -22,8 +22,8 @@ class Writer implements WriterInterface
         return new Writer($adapter);
     }
 
-    public function write(Exif $exif, string $file): void
+    public function write(Exif $exif, array $exifProps = [], string $file): void
     {
-        $this->adapter->writeExifToFile($exif, $file);
+        $this->adapter->writeExifToFile($exif, $exifProps, $file);
     }
 }
