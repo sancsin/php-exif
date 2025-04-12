@@ -141,6 +141,41 @@ class AccessorTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals($expected, $result);
     }
+
+    public function testFilterMap()
+    {
+        $inputs = array(
+            'faz' => 'foo',
+            'baz' => 'bar',
+            'gaz' => 'gar'
+        );
+
+        $expected = array(
+            'faz' => 'faz value',
+            'baz' => 'baz value'
+        );
+
+        $filterMap = array('foo', 'bar');
+
+        $mock = $this->getMockBuilder(AccessorTestClass::class)
+            ->onlyMethods(array('getFoo', 'getBar', 'getGaz'))
+            ->getMock();
+
+        $mock->expects($this->once())
+            ->method('getFoo')
+            ->willReturn($expected['faz']);
+
+        $mock->expects($this->once())
+            ->method('getBar')
+            ->willReturn($expected['baz']);
+
+        $mock->expects($this->never())
+            ->method('getGaz');
+
+        $accessor = new Accessor();
+        $result = $accessor->extract($mock, $inputs, $filterMap);
+        $this->assertEquals($expected, $result);
+    }
 }
 
 class AccessorTestClass
@@ -148,4 +183,6 @@ class AccessorTestClass
     public function getFoo() {}
 
     public function getBar() {}
+
+    public function getGaz() {}
 }
