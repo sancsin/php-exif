@@ -26,5 +26,5 @@ interface AdapterInterface
      * @param array Optional $exifProps containting EXIF properties to be written to the file
      * @throws PhpExifWriterException If the EXIF data could not be written
      */
-    public function writeExifToFile(Exif $exif, array $exifProps = [], string $file): void;
+    public function writeExifToFile(Exif $exif, string $file, array $exifProps = []): void;
 }

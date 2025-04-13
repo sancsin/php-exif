@@ -44,7 +44,7 @@ class Exiftool extends AbstractAdapter
      * @param array Optional $exifProps containting EXIF properties to be written to the files
      * @throws PhpExifException
      */
-    public function writeExifToFile(Exif $exif, array $exifProps = [], string $file): void
+    public function writeExifToFile(Exif $exif, string $file, array $exifProps = []): void
     {
         $encoding = '';
         if (count($this->encoding) > 0) {
