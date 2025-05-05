@@ -6,10 +6,21 @@ use PHPExif\Adapter\Writer\Exiftool;
 class ExiftoolWriterTest extends \PHPUnit\Framework\TestCase
 {
     protected Exiftool $adapter;
+    protected string $tempFile;
 
     public function setUp(): void
     {
         $this->adapter = new Exiftool(path: escapeshellarg('exiftool'));
+        $tempFile = tempnam(sys_get_temp_dir(), '');
+        $this->tempFile = $tempFile . '.jpg';
+        rename($tempFile, $this->tempFile);
+    }
+
+    public function tearDown(): void
+    {
+        if (file_exists($this->tempFile)) {
+            unlink($this->tempFile);
+        }
     }
 
     /**
@@ -39,9 +50,8 @@ class ExiftoolWriterTest extends \PHPUnit\Framework\TestCase
     public function testExifWriteToFile()
     {
         $file = PHPEXIF_TEST_ROOT . '/files/morning_glory_pool_500.jpg';
-        $tempFile = PHPEXIF_TEST_ROOT . '/files/temp.jpg';
 
-        if (!copy($file, $tempFile)) {
+        if (!copy($file, $this->tempFile)) {
             $this->fail('Could not copy file');
             return;
         }
@@ -52,24 +62,46 @@ class ExiftoolWriterTest extends \PHPUnit\Framework\TestCase
             $exif->setKeywords(['foo', 'bar']);
 
             $this->adapter->setOptions(array('encoding' => array('iptc' => 'cp1252')));
-            $this->adapter->writeExifToFile($exif, $tempFile);
+            $this->adapter->writeExifToFile($exif, $this->tempFile);
 
             $readerAdapter = new \PHPExif\Adapter\Reader\Exiftool();
             $readerAdapter->setOptions(array('encoding' => array('iptc' => 'cp1252')));
-            $result = $readerAdapter->getExifFromFile($tempFile);
+            $result = $readerAdapter->getExifFromFile($this->tempFile);
 
             $this->assertEquals($exif->getCreationDate(), $result->getCreationDate());
             $this->assertEqualsCanonicalizing($exif->getKeywords(), $result->getKeywords());
         } catch (Exception $e) {
             $this->fail($e->getMessage());
-        } finally {
-            if (file_exists($tempFile)) {
-                if (!unlink($tempFile)) {
-                    $this->fail('Could not delete temp file');
-                }
-            } else {
-                $this->fail('Temp file does not exist');
-            }
+        }
+    }
+
+    /**
+     * @group exiftool
+     */
+    public function testWriteExifDataToFile()
+    {
+        $file = PHPEXIF_TEST_ROOT . '/files/morning_glory_pool_500.jpg';
+
+        if (!copy($file, $this->tempFile)) {
+            $this->fail('Could not copy file');
+            return;
+        }
+
+        try {
+            $input = [
+                'creationDate' => new \DateTime('2020-01-01 12:00:00'),
+                'keywords' => ['foo', 'bar']
+            ];
+
+            $this->adapter->writeExifDataToFile($input, $this->tempFile);
+
+            $readerAdapter = new \PHPExif\Adapter\Reader\Exiftool();
+            $result = $readerAdapter->getExifFromFile($this->tempFile);
+
+            $this->assertEquals($input['creationdate'], $result->getCreationDate());
+            $this->assertEquals($input['keywords'], $result->getKeywords());
+        } catch (Exception $e) {
+            $this->fail($e->getMessage());
         }
     }
 }

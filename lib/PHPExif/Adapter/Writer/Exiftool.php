@@ -35,6 +35,27 @@ class Exiftool extends AbstractAdapter
         $this->toolPath = $path;
     }
 
+    public function writeExifDataToFile(array $data, string $file): void
+    {
+        $encoding = $this->getEncoding();
+        /**
+         * @var \PHPExif\Mapper\Writer\Exiftool
+         */
+        $mapper = $this->getMapper();
+        $mapper->setNumeric($this->numeric);
+
+        $exifData = $mapper->mapRawData($data);
+
+        if (count($exifData) == 0) {
+            throw new PhpExifException('No data to write');
+        }
+
+        $command = $this->getExifWriteCommand($exifData, $file, $encoding);
+
+        // This line will throw exception if the command fails
+        $this->getCliOutput($command);
+    }
+
     /**
      * Writes the EXIF data to given file by reading from
      * an EXIF object
@@ -46,13 +67,7 @@ class Exiftool extends AbstractAdapter
      */
     public function writeExifToFile(Exif $exif, string $file, array $exifProps = []): void
     {
-        $encoding = '';
-        if (count($this->encoding) > 0) {
-            $encoding = '-charset ';
-            foreach ($this->encoding as $key => $value) {
-                $encoding .= escapeshellarg($key) . '=' . escapeshellarg($value);
-            }
-        }
+        $encoding = $this->getEncoding();
         /**
          * @var \PHPExif\Mapper\Writer\Exiftool
          */
@@ -66,6 +81,19 @@ class Exiftool extends AbstractAdapter
 
         // This line will throw exception if the command fails
         $this->getCliOutput($command);
+    }
+
+    private function getEncoding()
+    {
+        $encoding = '';
+        if (count($this->encoding) > 0) {
+            $encoding = '-charset ';
+            foreach ($this->encoding as $key => $value) {
+                $encoding .= escapeshellarg($key) . '=' . escapeshellarg($value);
+            }
+        }
+
+        return $encoding;
     }
 
     /**
