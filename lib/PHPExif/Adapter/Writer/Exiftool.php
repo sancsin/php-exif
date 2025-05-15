@@ -35,6 +35,14 @@ class Exiftool extends AbstractAdapter
         $this->toolPath = $path;
     }
 
+    /**
+     * Writes the EXIF data contained within associative array $data to the given file
+     * @param array $data associative array containing {@see \PHPExif\Exif} properties as keys and value for each property
+     * @param string $file the image/video file to write EXIF data to
+     * @return void
+     * @throws PhpExifException
+     */
+
     public function writeExifDataToFile(array $data, string $file): void
     {
         $encoding = $this->getEncoding();
